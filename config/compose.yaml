@@ -1,0 +1,67 @@
+# SCx61 Week 2 - cluster definition (complete, nothing to fill in).
+# Same cluster as Week 1 (same project name, network, hostnames) plus ONE
+# new line per node: the shared folder  ../work -> /home/student/work.
+# All three nodes see the SAME folder, because mpirun starts the same
+# script path on every node.
+name: scx61-week1
+
+services:
+  node0:
+    build:
+      context: ../source_code
+    hostname: node0
+    container_name: node0
+    networks:
+      - clusternet
+    healthcheck:
+      test: ["CMD-SHELL", "ssh-keyscan -T 1 -p 22 127.0.0.1 2>/dev/null | grep -q '^127.0.0.1 ssh-' || exit 1"]
+      interval: 20s
+      timeout: 2s
+      retries: 3
+      start_period: 5s
+    ports:
+      - "2222:22"
+    volumes:
+      - ../work:/home/student/work
+
+  node1:
+    build:
+      context: ../source_code
+    hostname: node1
+    container_name: node1
+    networks:
+      - clusternet
+    healthcheck:
+      test: ["CMD-SHELL", "ssh-keyscan -T 1 -p 22 127.0.0.1 2>/dev/null | grep -q '^127.0.0.1 ssh-' || exit 1"]
+      interval: 20s
+      timeout: 2s
+      retries: 3
+      start_period: 5s
+    depends_on:
+      node0:
+        condition: service_healthy
+    volumes:
+      - ../work:/home/student/work
+
+  node2:
+    build:
+      context: ../source_code
+    hostname: node2
+    container_name: node2
+    networks:
+      - clusternet
+    healthcheck:
+      test: ["CMD-SHELL", "ssh-keyscan -T 1 -p 22 127.0.0.1 2>/dev/null | grep -q '^127.0.0.1 ssh-' || exit 1"]
+      interval: 20s
+      timeout: 2s
+      retries: 3
+      start_period: 5s
+    depends_on:
+      node0:
+        condition: service_healthy
+    volumes:
+      - ../work:/home/student/work
+
+networks:
+  clusternet:
+    driver: bridge

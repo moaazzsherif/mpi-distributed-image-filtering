@@ -1,0 +1,30 @@
+# keys and secrets
+id_rsa*
+id_ed25519*
+*.pem
+*.key
+.env
+.env.*
+
+# docker image archives
+*.tar
+*.tar.gz
+*.tgz
+
+# generated data from runs
+work/*.npy
+*_out*.npy
+
+# Break Kit files stay out of the public repo
+work/img_mpi_v3_naive_halo.py
+work/break_deadlock.sh
+work/verify_fix.sh
+debugging.md
+
+# python / editors / os
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,10 @@
+* text=auto
+*.sh text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+Dockerfile text eol=lf
+compose*.yaml text eol=lf
+hostfile text eol=lf
+*.png binary
+*.jpg binary
+*.gif binary
